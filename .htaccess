@@ -1,0 +1,5 @@
+Options -Indexes
+DirectoryIndex indexMtoDepartamentos.php index.php index.html
+ErrorDocument 403 /214DWESMtoDepartamentosmysPDOTema4/errors/403.html
+ErrorDocument 404 /214DWESMtoDepartamentosmysPDOTema4/errors/404.html
+Redirect 301 /google https://www.google.es
