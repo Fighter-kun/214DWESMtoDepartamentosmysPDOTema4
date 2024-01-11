@@ -8,7 +8,6 @@
  * @Annotation Proyecto MtoDepartamentosmysPDOTema4 - Parte de 'Index' 
  * 
  */
-
 ?>
 <!DOCTYPE html>
 <!--
@@ -26,33 +25,31 @@
         <meta name="generator" content="60">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Carlos García Cachón</title>
-        <link rel="icon" type="image/jpg" href="webroot/media/images/favicon.ico"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="icon" type="image/jpg" href="webroot/media/images/favicon.ico">
+        <link rel="stylesheet" href="webroot/bootstrap-5.3.2-dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="webroot/css/style.css">
         <style>
-            .obligatorio {
-                background-color: #ffff7a;
-            }
             .error {
                 color: red;
                 width: 450px;
             }
             input[name="DescDepartamento"] {
-                width: 255px;
+                width: 110%;
+                margin-right: 50%;
             }
-            form {
-                position: fixed;
+            form[name="buscarDepartamentos"] {
+                position: absolute;
                 top: 200px;
                 width: 70%;
             }
+            
             .tablaMuestra {
-                position: fixed;
-                top: 40%;
+                position: absolute;
+                top: 35%;
                 width: 70%;
             }
-            .salir {
-                margin-top: 40%;
+            .grupoDeBotones {
+                margin-top: 50%;
             }
         </style>
     </head>
@@ -63,17 +60,6 @@
         </header>
         <main>
             <div class="container mt-3">
-                <!-- 
-                <div class="row mb-5">
-                    <div class="col text-center">
-                        <form class="opcionesDelIdioma">
-                            <button type="submit" value="UK" name="botonIdioma"><img src="doc/icono_UK.png" class="img-fluid" alt="Bandera_UK"></button>
-                            <button type="submit" value="JP" name="botonIdioma"><img src="doc/icono_JP.png" class="img-fluid" alt="Bandera_JP"></button>
-                            <button type="submit" value="SP" name="botonIdioma"><img src="doc/icono_SP.png" class="img-fluid" alt="Bandera_SP"></button>
-                        </form>
-                    </div>
-                </div>
-                -->
                 <div class="row mb-5">
                     <div class="col text-center">
                         <?php
@@ -133,7 +119,7 @@
                             $miDB = new PDO(DSN, USERNAME, PASSWORD);
 
                             //Preparamos la consulta
-                            $resultadoConsulta = $miDB->query("select * from T02_Departamento where T02_DescDepartamento like'%$aRespuestas[DescDepartamento]%';");
+                            $resultadoConsulta = $miDB->query("SELECT * FROM T02_Departamento WHERE T02_DescDepartamento LIKE'%$aRespuestas[DescDepartamento]%' ;");
                             // Ejecutando la declaración SQL
                             if ($resultadoConsulta->rowCount() == 0) {
                                 $aErrores['DescDepartamento'] = "No existen departamentos con esa descripcion";
@@ -143,6 +129,7 @@
                             echo ("<table>
                                         <thead>
                                         <tr>
+                                            <th colspan='2'><-T-></th>
                                             <th>Codigo de Departamento</th>
                                             <th>Descripcion de Departamento</th>
                                             <th>Fecha de Creacion</th>
@@ -158,6 +145,25 @@
                             echo ("<tbody>");
                             while ($oDepartamento = $resultadoConsulta->fetchObject()) {
                                 echo ("<tr>");
+                                echo ("<td>");
+                                
+
+                                // Formulario para editar
+                                echo ("<form action='codigoPHP/editarDepartamento.php' method='post'>");
+                                echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                echo ("<button type='submit' name='editarDepartamento'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
+                                echo ("</form>");
+                                echo ("</td>");
+                                
+                                
+                                // Formulario para eliminar
+                                echo ("<td>");
+                                echo ("<form action='codigoPHP/eliminarDepartamento.php' method='post'>");
+                                echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                echo ("<button type='submit' name='eliminarDepartamento'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
+                                echo ("</form>");
+                                echo ("</td>");
+                                
                                 echo ("<td>" . $oDepartamento->T02_CodDepartamento . "</td>");
                                 echo ("<td>" . $oDepartamento->T02_DescDepartamento . "</td>");
                                 echo ("<td>" . $oDepartamento->T02_FechaCreacionDepartamento . "</td>");
@@ -172,7 +178,7 @@
                              */
                             $numeroDeRegistrosConsulta = $resultadoConsulta->rowCount();
                             // Y mostramos el número de registros
-                            echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='5'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
+                            echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='7'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
                             echo ("</table>");
                             echo ("</div>");
                             //Mediante PDOExprecion controlamos los errores
@@ -200,7 +206,7 @@
                                 $miDB = new PDO(DSN, USERNAME, PASSWORD);
 
                                 //Preparamos la consulta
-                                $resultadoConsulta = $miDB->query("select * from T02_Departamento where T02_DescDepartamento like'%$aRespuestas[DescDepartamento]%';");
+                                $resultadoConsulta = $miDB->query("SELECT * FROM T02_Departamento WHERE T02_DescDepartamento LIKE'%$aRespuestas[DescDepartamento]%';");
                                 // Ejecutando la declaración SQL
                                 if ($resultadoConsulta->rowCount() == 0) {
                                     $aErrores['DescDepartamento'] = "No existen departamentos con esa descripcion";
@@ -210,7 +216,7 @@
                                 echo ("<table>
                                         <thead>
                                         <tr>
-                                            <th><-T-></th>
+                                            <th colspan='2'><-T-></th>
                                             <th>Codigo de Departamento</th>
                                             <th>Descripcion de Departamento</th>
                                             <th>Fecha de Creacion</th>
@@ -226,7 +232,22 @@
                                 echo ("<tbody>");
                                 while ($oDepartamento = $resultadoConsulta->fetchObject()) {
                                     echo ("<tr>");
-                                    echo ("<td>BotonesMantenimiento</td>");
+                                    echo ("<td>");
+                                    
+                                    // Formulario para editar
+                                    echo ("<form action='codigoPHP/editarDepartamento.php' method='post'>");
+                                    echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                    echo ("<button type='submit' name='editarDepartamento'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
+                                    echo ("</form>");
+                                    echo ("</td>");
+                                    
+                                    // Formulario para eliminar
+                                    echo ("<td>");
+                                    echo ("<form action='codigoPHP/eliminarDepartamento.php' method='post'>");
+                                    echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                    echo ("<button type='submit' name='eliminarDepartamento'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
+                                    echo ("</form>");
+                                    echo ("</td>");
                                     echo ("<td>" . $oDepartamento->T02_CodDepartamento . "</td>");
                                     echo ("<td>" . $oDepartamento->T02_DescDepartamento . "</td>");
                                     echo ("<td>" . $oDepartamento->T02_FechaCreacionDepartamento . "</td>");
@@ -241,7 +262,7 @@
                                  */
                                 $numeroDeRegistrosConsulta = $resultadoConsulta->rowCount();
                                 // Y mostramos el número de registros
-                                echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='5'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
+                                echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='7'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
                                 echo ("</table>");
                                 echo ("</div>");
                                 //Mediante PDOExprecion controlamos los errores
@@ -253,16 +274,16 @@
                             }
                         } //Despues de que se ejecute el codigo anterior mostramos pase lo que pase el formulario
                         ?>
-                        <form name="insercionValoresTablaDepartamento" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                        <form name="buscarDepartamentos" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                             <fieldset>
                                 <table>
                                     <thead>
-                                     
+
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr style="background-color: #f2f2f2;">
                                             <!-- CodDepartamento Obligatorio -->
-                                            <td class="d-flex justify-content-start">
+                                            <td class="d-flex justify-content-start" colspan='2'>
                                                 <label for="DescDepartamento"></label>
                                             </td>
                                             <td>                                                                                                <!-- El value contiene una operador ternario en el que por medio de un metodo 'isset()'
@@ -270,8 +291,12 @@
                                                                                                                                                 que contiene '$_REQUEST' , en caso falso sobrescribira el campo a '' .-->
                                                 <input class="d-flex justify-content-start" type="text" name="DescDepartamento" value="<?php echo (isset($_REQUEST['DescDepartamento']) ? $_REQUEST['DescDepartamento'] : ''); ?>">
                                             </td>
+
+
                                             <td><button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="enviar">Buscar</button></td>
-                                            <td class="error">
+                                        </tr>
+                                        <tr style="background-color: #f2f2f2;">
+                                            <td class="error" colspan="3">
                                                 <?php
                                                 if (!empty($aErrores['DescDepartamento'])) {
                                                     echo $aErrores['DescDepartamento'];
@@ -288,8 +313,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col text-center">
-                        <a class="btn btn-secondary salir" role="button" aria-disabled="true" href='../214DWESProyectoDWES/indexProyectoDWES.html'>Salir</a>
+                    <div class="col">
+                        <a class="btn btn-secondary" role="button" aria-disabled="true" href='../214DWESProyectoDWES/indexProyectoDWES.html'>Salir</a>
+                        <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="exportarDepartamentos">Exportar</button>
+                        <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="importarDepartamentos">Importar</button>
                     </div>
                 </div>
             </div>
@@ -310,9 +337,7 @@
             </div>
         </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+        <script src="webroot/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
     </body>
 
 </html>
