@@ -9,7 +9,7 @@
  * 
  */
 
-// Estructura del botón exportar, si el ususario pulsa el botón 'exportar'
+// Estructura del botón exportar, si el usuario pulsa el botón 'exportar'
 if (isset($_REQUEST['exportarDepartamentos'])) {
     header('Location: codigoPHP/exportarDepartamentos.php'); // Llevo al usuario a exportarDepartamentos
     exit();

@@ -9,8 +9,8 @@
  * 
  */
 
-// Estructura del botón cancelar, si el ususario pulsa el botón 'cancelar'
-if (isset($_REQUEST['cancelar'])) {
+// Estructura del botón cancelar, si el usuario pulsa el botón 'cancelar'
+if (isset($_REQUEST['cancelarEditar'])) {
     header('Location: ../indexMtoDepartamentos.php'); // Llevo al usuario de vuelta al index
     exit();
 }
@@ -45,7 +45,7 @@ try {
     $volumenNegocioAEditar = $oDepartamentoAEditar->T02_VolumenDeNegocio;
     $fechaBajaDepartamentoAEditar = $oDepartamentoAEditar->T02_FechaBajaDepartamento;
     
-    if (isset($_REQUEST['confirmarCambios'])) { // Comprobamos que el usuario haya enviado el formulario para 'confirmar los cambios'
+    if (isset($_REQUEST['confirmarCambiosEditar'])) { // Comprobamos que el usuario haya enviado el formulario para 'confirmar los cambios'
         $aErrores['T02_DescDepartamento'] = validacionFormularios::comprobarAlfaNumerico($_REQUEST['T02_DescDepartamento'], 255, 3, 0);
         $aErrores['T02_VolumenDeNegocio'] = validacionFormularios::comprobarFloat($_REQUEST['T02_VolumenDeNegocio_'], PHP_FLOAT_MAX, -PHP_FLOAT_MAX, 0); 
 
@@ -117,8 +117,8 @@ try {
                         color:#4CAF50;
                         font-weight:bold;
                     }
-                    .btn-danger {
-                        background-color: red;
+                    input {
+                        width: 90%;
                     }
                 </style>
             </head>
@@ -192,7 +192,7 @@ try {
                                                     <td>                                                                                                <!-- El value contiene una operador ternario en el que por medio de un metodo 'isset()'
                                                                                                                                                         comprobamos que exista la variable y no sea 'null'. En el caso verdadero devovleremos el contenido del campo
                                                                                                                                                         que contiene '$_REQUEST' , en caso falso sobrescribira el campo a '' .-->
-                                                        <input class="d-flex justify-content-start" type="number" name="T02_VolumenDeNegocio_" value="<?php echo (isset($_REQUEST['T02_VolumenDeNegocio']) ? $_REQUEST['T02_VolumenDeNegocio'] : $volumenNegocioAEditar); ?>">
+                                                        <input class="d-flex justify-content-start" type="text" name="T02_VolumenDeNegocio_" value="<?php echo (isset($_REQUEST['T02_VolumenDeNegocio']) ? $_REQUEST['T02_VolumenDeNegocio'] : $volumenNegocioAEditar); ?>">
                                                     </td>
                                                     <td class="error">
                                                         <?php
@@ -221,8 +221,8 @@ try {
                                             </tbody>
                                         </table>
                                         <div class="text-center">
-                                            <button class="btn btn-secondary" aria-disabled="true" type="submit" name="confirmarCambios">Confirmar Cambios</button>
-                                            <button class="btn btn-secondary" aria-disabled="true" type="submit" name="cancelar">Cancelar</button>
+                                            <button class="btn btn-secondary" aria-disabled="true" type="submit" name="confirmarCambiosEditar">Confirmar Cambios</button>
+                                            <button class="btn btn-secondary" aria-disabled="true" type="submit" name="cancelarEditar">Cancelar</button>
                                         </div>
                                     </fieldset>
                                 </form>
