@@ -8,6 +8,18 @@
  * @Annotation Proyecto MtoDepartamentosmysPDOTema4 - Parte de 'Index' 
  * 
  */
+
+// Estructura del botón exportar, si el ususario pulsa el botón 'exportar'
+if (isset($_REQUEST['exportarDepartamentos'])) {
+    header('Location: codigoPHP/exportarDepartamentos.php'); // Llevo al usuario a exportarDepartamentos
+    exit();
+}
+
+// Estructura del botón importar, si el ususario pulsa el botón 'importar'
+if (isset($_REQUEST['importarDepartamentos'])) {
+    header('Location: codigoPHP/exportarDepartamentos.php'); // Llevo al usuario a importarDepartamentos
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <!--
@@ -151,7 +163,7 @@
                                 // Formulario para editar
                                 echo ("<form action='codigoPHP/editarDepartamento.php' method='post'>");
                                 echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
-                                echo ("<button type='submit' name='editarDepartamento'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
+                                echo ("<button type='submit'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
                                 echo ("</form>");
                                 echo ("</td>");
                                 
@@ -160,7 +172,7 @@
                                 echo ("<td>");
                                 echo ("<form action='codigoPHP/eliminarDepartamento.php' method='post'>");
                                 echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
-                                echo ("<button type='submit' name='eliminarDepartamento'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
+                                echo ("<button type='submit'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
                                 echo ("</form>");
                                 echo ("</td>");
                                 
@@ -237,7 +249,7 @@
                                     // Formulario para editar
                                     echo ("<form action='codigoPHP/editarDepartamento.php' method='post'>");
                                     echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
-                                    echo ("<button type='submit' name='editarDepartamento'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
+                                    echo ("<button type='submit'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
                                     echo ("</form>");
                                     echo ("</td>");
                                     
@@ -245,7 +257,7 @@
                                     echo ("<td>");
                                     echo ("<form action='codigoPHP/eliminarDepartamento.php' method='post'>");
                                     echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
-                                    echo ("<button type='submit' name='eliminarDepartamento'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
+                                    echo ("<button type='submit'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
                                     echo ("</form>");
                                     echo ("</td>");
                                     echo ("<td>" . $oDepartamento->T02_CodDepartamento . "</td>");
@@ -314,9 +326,11 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <a class="btn btn-secondary" role="button" aria-disabled="true" href='../214DWESProyectoDWES/indexProyectoDWES.html'>Salir</a>
+                        <form name="indexMtoDepartamentos" method="post">
+                        <a class="btn btn-secondary" role="button" aria-disabled="true" href='../214DWESProyectoTema4/indexProyectoTema4.html'>Salir</a>
                         <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="exportarDepartamentos">Exportar</button>
                         <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="importarDepartamentos">Importar</button>
+                        </form>
                     </div>
                 </div>
             </div>
