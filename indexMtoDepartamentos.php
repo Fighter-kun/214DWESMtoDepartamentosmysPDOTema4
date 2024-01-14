@@ -15,9 +15,9 @@ if (isset($_REQUEST['exportarDepartamentos'])) {
     exit();
 }
 
-// Estructura del botón importar, si el ususario pulsa el botón 'importar'
+// Estructura del botón importar, si el usuario pulsa el botón 'importar'
 if (isset($_REQUEST['importarDepartamentos'])) {
-    header('Location: codigoPHP/exportarDepartamentos.php'); // Llevo al usuario a importarDepartamentos
+    header('Location: codigoPHP/importarDepartamentos.php'); // Llevo al usuario a importarDepartamentos
     exit();
 }
 ?>
