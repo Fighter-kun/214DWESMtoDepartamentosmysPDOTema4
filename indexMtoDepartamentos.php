@@ -20,6 +20,12 @@ if (isset($_REQUEST['importarDepartamentos'])) {
     header('Location: codigoPHP/importarDepartamentos.php'); // Llevo al usuario a importarDepartamentos
     exit();
 }
+
+// Estructura del botón añadir departamento, si el usuario pulsa el botón 'añadir departameto'
+if (isset($_REQUEST['añadirDepartamento'])) {
+    header('Location: codigoPHP/añadirDepartamento.php'); // Llevo al usuario a añadirDepartamento
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <!--
@@ -330,6 +336,7 @@ if (isset($_REQUEST['importarDepartamentos'])) {
                         <a class="btn btn-secondary" role="button" aria-disabled="true" href='../214DWESProyectoTema4/indexProyectoTema4.html'>Salir</a>
                         <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="exportarDepartamentos">Exportar</button>
                         <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="importarDepartamentos">Importar</button>
+                        <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="añadirDepartamento">Añadir Departamento</button>
                         </form>
                     </div>
                 </div>

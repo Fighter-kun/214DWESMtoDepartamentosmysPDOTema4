@@ -87,8 +87,8 @@ try {
             <head>
                 <meta charset="UTF-8">
                 <meta name="author" content="Carlos García Cachón">
-                <meta name="description" content="CodigoLogin">
-                <meta name="keywords" content="CodigoLogin">
+                <meta name="description" content="214DWESMtoDepartamentosmysPDOTema4">
+                <meta name="keywords" content="214DWESMtoDepartamentosmysPDOTema4, editarDepartamento">
                 <meta name="generator" content="Apache NetBeans IDE 19">
                 <meta name="generator" content="60">
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

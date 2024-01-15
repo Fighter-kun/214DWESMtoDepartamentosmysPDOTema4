@@ -241,7 +241,7 @@ if (isset($_REQUEST['importarDepartamentos'])) {
         <meta charset="UTF-8">
         <meta name="author" content="Carlos García Cachón">
         <meta name="description" content="214DWESMtoDepartamentosmysPDOTema4">
-        <meta name="keywords" content="214DWESMtoDepartamentosmysPDOTema4, DWES">
+        <meta name="keywords" content="214DWESMtoDepartamentosmysPDOTema4, importarDepartamentos">
         <meta name="generator" content="Apache NetBeans IDE 19">
         <meta name="generator" content="60">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
