@@ -8,7 +8,6 @@
  * @Annotation Proyecto MtoDepartamentosmysPDOTema4 - Parte de 'Index' 
  * 
  */
-
 // Estructura del botón exportar, si el usuario pulsa el botón 'exportar'
 if (isset($_REQUEST['exportarDepartamentos'])) {
     header('Location: codigoPHP/exportarDepartamentos.php'); // Llevo al usuario a exportarDepartamentos
@@ -60,7 +59,7 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                 top: 200px;
                 width: 70%;
             }
-            
+
             .tablaMuestra {
                 position: absolute;
                 top: 35%;
@@ -104,6 +103,7 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                         $aErrores = [
                             'DescDepartamento' => '',
                         ]; //Almacena los errores
+                                               
                         //Comprobamos si se ha enviado el formulario
                         if (isset($_REQUEST['enviar'])) {
                             //Introducimos valores en el array $aErrores si ocurre un error
@@ -124,30 +124,28 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                             }
                         } else {
                             $entradaOK = false; //Si no ha pulsado el botón de enviar la validación es incorrecta.
-                        }
+                            try {
+                                //Establecimiento de la conexion
+                                /*
+                                  Instanciamos un objeto PDO y establecemos la conexión
+                                  Construccion de la cadena PDO: (ej. 'mysql:host=localhost; dbname=midb')
+                                  host – nombre o dirección IP del servidor
+                                  dbname – nombre de la base de datos
+                                 */
+                                $miDB = new PDO(DSN, USERNAME, PASSWORD);
 
-                        try {
-                            //Establecimiento de la conexion
-                            /*
-                              Instanciamos un objeto PDO y establecemos la conexión
-                              Construccion de la cadena PDO: (ej. 'mysql:host=localhost; dbname=midb')
-                              host – nombre o dirección IP del servidor
-                              dbname – nombre de la base de datos
-                             */
-                            $miDB = new PDO(DSN, USERNAME, PASSWORD);
-
-                            //Preparamos la consulta
-                            $resultadoConsulta = $miDB->query("SELECT * FROM T02_Departamento WHERE T02_DescDepartamento LIKE'%$aRespuestas[DescDepartamento]%' ;");
-                            // Ejecutando la declaración SQL
-                            if ($resultadoConsulta->rowCount() == 0) {
-                                $aErrores['DescDepartamento'] = "No existen departamentos con esa descripcion";
-                            }
-                            // Creamos una tabla en la que mostraremos la tabla de la BD
-                            echo ("<div class='list-group text-center tablaMuestra'>");
-                            echo ("<table>
+                                //Preparamos la consulta
+                                $resultadoConsulta = $miDB->query("SELECT * FROM T02_Departamento WHERE T02_DescDepartamento LIKE'%$aRespuestas[DescDepartamento]%';");
+                                // Ejecutando la declaración SQL
+                                if ($resultadoConsulta->rowCount() == 0) {
+                                    $aErrores['DescDepartamento'] = "No existen departamentos con esa descripcion";
+                                }
+                                // Creamos una tabla en la que mostraremos la tabla de la BD
+                                echo ("<div class='list-group text-center tablaMuestra'>");
+                                echo ("<table>
                                         <thead>
                                         <tr>
-                                            <th colspan='2'><-T-></th>
+                                            <th colspan='3'><-T-></th>
                                             <th>Codigo de Departamento</th>
                                             <th>Descripcion de Departamento</th>
                                             <th>Fecha de Creacion</th>
@@ -156,56 +154,62 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                                         </tr>
                                         </thead>");
 
-                            /* Aqui recorremos todos los valores de la tabla, columna por columna, usando el parametro 'PDO::FETCH_ASSOC' , 
-                             * el cual nos indica que los resultados deben ser devueltos como un array asociativo, donde los nombres de las columnas de 
-                             * la tabla se utilizan como claves (keys) en el array.
-                             */
-                            echo ("<tbody>");
-                            while ($oDepartamento = $resultadoConsulta->fetchObject()) {
-                                echo ("<tr>");
-                                echo ("<td>");
-                                
+                                /* Aqui recorremos todos los valores de la tabla, columna por columna, usando el parametro 'PDO::FETCH_ASSOC' , 
+                                 * el cual nos indica que los resultados deben ser devueltos como un array asociativo, donde los nombres de las columnas de 
+                                 * la tabla se utilizan como claves (keys) en el array.
+                                 */
+                                echo ("<tbody>");
+                                while ($oDepartamento = $resultadoConsulta->fetchObject()) {
+                                    echo ("<tr>");
+                                    echo ("<td>");
 
-                                // Formulario para editar
-                                echo ("<form action='codigoPHP/editarDepartamento.php' method='post'>");
-                                echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
-                                echo ("<button type='submit'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
-                                echo ("</form>");
-                                echo ("</td>");
-                                
-                                
-                                // Formulario para eliminar
-                                echo ("<td>");
-                                echo ("<form action='codigoPHP/eliminarDepartamento.php' method='post'>");
-                                echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
-                                echo ("<button type='submit'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
-                                echo ("</form>");
-                                echo ("</td>");
-                                
-                                echo ("<td>" . $oDepartamento->T02_CodDepartamento . "</td>");
-                                echo ("<td>" . $oDepartamento->T02_DescDepartamento . "</td>");
-                                echo ("<td>" . $oDepartamento->T02_FechaCreacionDepartamento . "</td>");
-                                echo ("<td>" . $oDepartamento->T02_VolumenDeNegocio . "</td>");
-                                echo ("<td>" . $oDepartamento->T02_FechaBajaDepartamento . "</td>");
-                                echo ("</tr>");
+                                    // Formulario para editar
+                                    echo ("<form " . (!is_null($oDepartamento->T02_FechaBajaDepartamento) ? 'style="display: none;"' : '') . " action='codigoPHP/editarDepartamento.php' method='post'>");
+                                    echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                    echo ("<button type='submit'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
+                                    echo ("</form>");
+                                    echo ("</td>");
+
+                                    // Formulario para eliminar
+                                    echo ("<td>");
+                                    echo ("<form action='codigoPHP/eliminarDepartamento.php' method='post'>");
+                                    echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                    echo ("<button type='submit'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
+                                    echo ("</form>");
+                                    echo ("</td>");
+
+                                    // Formulario para alta/baja logica
+                                    echo ("<td>");
+                                    echo ("<form  action='codigoPHP/altaBajaLogicaDepartamento.php' method='post'>");
+                                    echo ("<input type='checkbox' name='estadoLogico' " . (is_null($oDepartamento->T02_FechaBajaDepartamento) ? 'checked' : '') . " onchange='this.form.submit()'>");
+                                    echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                    echo ("</form>");
+                                    echo ("</td>");
+                                    
+                                    echo ("<td>" . $oDepartamento->T02_CodDepartamento . "</td>");
+                                    echo ("<td>" . $oDepartamento->T02_DescDepartamento . "</td>");
+                                    echo ("<td>" . $oDepartamento->T02_FechaCreacionDepartamento . "</td>");
+                                    echo ("<td>" . $oDepartamento->T02_VolumenDeNegocio . "</td>");
+                                    echo ("<td>" . $oDepartamento->T02_FechaBajaDepartamento . "</td>");
+                                    echo ("</tr>");
+                                }
+
+                                echo ("</tbody>");
+                                /* Ahora usamos la función 'rowCount()' que nos devuelve el número de filas afectadas por la consulta y 
+                                 * almacenamos el valor en la variable '$numeroDeRegistros'
+                                 */
+                                $numeroDeRegistrosConsulta = $resultadoConsulta->rowCount();
+                                // Y mostramos el número de registros
+                                echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='8'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
+                                echo ("</table>");
+                                echo ("</div>");
+                                //Mediante PDOExprecion controlamos los errores
+                            } catch (PDOException $excepcion) {
+                                echo 'Error: ' . $excepcion->getMessage() . "<br>"; //Obtiene el valor de un atributo
+                                echo 'Código de error: ' . $excepcion->getCode() . "<br>"; // Establece el valor de un atributo
                             }
-
-                            echo ("</tbody>");
-                            /* Ahora usamos la función 'rowCount()' que nos devuelve el número de filas afectadas por la consulta y 
-                             * almacenamos el valor en la variable '$numeroDeRegistros'
-                             */
-                            $numeroDeRegistrosConsulta = $resultadoConsulta->rowCount();
-                            // Y mostramos el número de registros
-                            echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='7'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
-                            echo ("</table>");
-                            echo ("</div>");
-                            //Mediante PDOExprecion controlamos los errores
-                        } catch (PDOException $excepcion) {
-                            echo 'Error: ' . $excepcion->getMessage() . "<br>"; //Obtiene el valor de un atributo
-                            echo 'Código de error: ' . $excepcion->getCode() . "<br>"; // Establece el valor de un atributo
-                        } finally {
-                            unset($miDB);
                         }
+
                         //Si la entrada es Ok almacenamos el valor de la respuesta del usuario en el array $aRespuestas
                         if ($entradaOK) {
                             //Almacenamos el valor en el array
@@ -234,7 +238,7 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                                 echo ("<table>
                                         <thead>
                                         <tr>
-                                            <th colspan='2'><-T-></th>
+                                            <th colspan='3'><-T-></th>
                                             <th>Codigo de Departamento</th>
                                             <th>Descripcion de Departamento</th>
                                             <th>Fecha de Creacion</th>
@@ -251,14 +255,14 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                                 while ($oDepartamento = $resultadoConsulta->fetchObject()) {
                                     echo ("<tr>");
                                     echo ("<td>");
-                                    
+
                                     // Formulario para editar
-                                    echo ("<form action='codigoPHP/editarDepartamento.php' method='post'>");
+                                    echo ("<form " . (!is_null($oDepartamento->T02_FechaBajaDepartamento) ? 'style="display: none;"' : '') . " action='codigoPHP/editarDepartamento.php' method='post'>");
                                     echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
                                     echo ("<button type='submit'><svg fill='#666' width='16' height='16' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M4.481 15.659c-1.334 3.916-1.48 4.232-1.48 4.587 0 .528.46.749.749.749.352 0 .668-.137 4.574-1.492zm1.06-1.061 3.846 3.846 11.321-11.311c.195-.195.293-.45.293-.707 0-.255-.098-.51-.293-.706-.692-.691-1.742-1.74-2.435-2.432-.195-.195-.451-.293-.707-.293-.254 0-.51.098-.706.293z' fill-rule='evenodd'/></svg></button>");
                                     echo ("</form>");
                                     echo ("</td>");
-                                    
+
                                     // Formulario para eliminar
                                     echo ("<td>");
                                     echo ("<form action='codigoPHP/eliminarDepartamento.php' method='post'>");
@@ -266,6 +270,15 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                                     echo ("<button type='submit'><svg width='16' height='16' clip-rule='evenodd' fill-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z' fill='red'/></svg></button>");
                                     echo ("</form>");
                                     echo ("</td>");
+
+                                    // Formulario para alta/baja logica
+                                    echo ("<td>");
+                                    echo ("<form  action='codigoPHP/altaBajaLogicaDepartamento.php' method='post'>");
+                                    echo ("<input type='checkbox' name='estadoLogico' " . (is_null($oDepartamento->T02_FechaBajaDepartamento) ? 'checked' : '') . " onchange='this.form.submit()'>");
+                                    echo ("<input type='hidden' name='codDepartamento' value='" . $oDepartamento->T02_CodDepartamento . "'>");
+                                    echo ("</form>");
+                                    echo ("</td>");
+                                    
                                     echo ("<td>" . $oDepartamento->T02_CodDepartamento . "</td>");
                                     echo ("<td>" . $oDepartamento->T02_DescDepartamento . "</td>");
                                     echo ("<td>" . $oDepartamento->T02_FechaCreacionDepartamento . "</td>");
@@ -280,7 +293,7 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                                  */
                                 $numeroDeRegistrosConsulta = $resultadoConsulta->rowCount();
                                 // Y mostramos el número de registros
-                                echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='7'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
+                                echo ("<tfoot ><tr style='background-color: #666; color:white;'><td colspan='8'>Número de registros en la tabla Departamento: " . $numeroDeRegistrosConsulta . '</td></tr></tfoot>');
                                 echo ("</table>");
                                 echo ("</div>");
                                 //Mediante PDOExprecion controlamos los errores
@@ -292,7 +305,7 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                             }
                         } //Despues de que se ejecute el codigo anterior mostramos pase lo que pase el formulario
                         ?>
-                        <form name="buscarDepartamentos" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                        <form name="buscarDepartamentos" id="buscarDepartamentos" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                             <fieldset>
                                 <table>
                                     <thead>
@@ -333,10 +346,10 @@ if (isset($_REQUEST['añadirDepartamento'])) {
                 <div class="row">
                     <div class="col">
                         <form name="indexMtoDepartamentos" method="post">
-                        <a class="btn btn-secondary" role="button" aria-disabled="true" href='../214DWESProyectoTema4/indexProyectoTema4.html'>Salir</a>
-                        <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="exportarDepartamentos">Exportar</button>
-                        <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="importarDepartamentos">Importar</button>
-                        <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="añadirDepartamento">Añadir Departamento</button>
+                            <a class="btn btn-secondary" role="button" aria-disabled="true" href='../214DWESProyectoTema4/indexProyectoTema4.html'>Salir</a>
+                            <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="exportarDepartamentos">Exportar</button>
+                            <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="importarDepartamentos">Importar</button>
+                            <button class="btn btn-secondary" role="button" aria-disabled="true" type="submit" name="añadirDepartamento">Añadir Departamento</button>
                         </form>
                     </div>
                 </div>
